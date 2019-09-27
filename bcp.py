@@ -3,7 +3,6 @@ from datetime import timedelta
 import os.path
 import toml
 import sys
-import pprint
 
 class calendar:
     PREFERENCE_SAINTS_DAY_READINGS = True
@@ -102,7 +101,7 @@ class calendar:
         eastertide_start = easter_day
         trinity_start = easter_day + timedelta(days=50)
 
-        print(str((advent_start, christmastide_start, epiphany_start, shrovetide_start, lent_start, eastertide_start, trinity_start, next_advent_start)))
+        #print(str((advent_start, christmastide_start, epiphany_start, shrovetide_start, lent_start, eastertide_start, trinity_start, next_advent_start)))
         return(advent_start, christmastide_start, epiphany_start, shrovetide_start, lent_start, eastertide_start, trinity_start, next_advent_start)
 
         
@@ -160,17 +159,17 @@ class calendar:
             weeks_in_trinity = self._calculate_week_number(trinity_start, next_advent_start - timedelta(days=1)) 
             extra_trinity_service_number = self._calculate_week_number(trinity_start, d) - trinity_standard_services
 
-            print("Trinity standard services: " + str(trinity_standard_services))
-            print("Weeks in trinity: " + str(weeks_in_trinity))
-            print("Extra trinity service number: " + str(extra_trinity_service_number))
+            #print("Trinity standard services: " + str(trinity_standard_services))
+            #print("Weeks in trinity: " + str(weeks_in_trinity))
+            #print("Extra trinity service number: " + str(extra_trinity_service_number))
 
             # If we need to insert an additional trinity service
             if extra_trinity_service_number > 0:
                 # Start using omitted Epiphany services
                 weeks_in_epiphany = self._calculate_week_number(epiphany_start, shrovetide_start - timedelta(days=1))
                 week_of_epiphany_service = weeks_in_epiphany + extra_trinity_service_number
-                print("Weeks in epiphany: " + str(weeks_in_epiphany))
-                print("Weeks of epiphany service: " + str(week_of_epiphany_service))
+                #print("Weeks in epiphany: " + str(weeks_in_epiphany))
+                #print("Weeks of epiphany service: " + str(week_of_epiphany_service))
                 return self.seasons['epiphany'][str(week_of_epiphany_service)]
 
         # Not an exception day
@@ -242,7 +241,7 @@ class calendar:
             holy_day = False
 
         # Extract information from BCP about specified seasonal day
-        print("season: " + season)
+        #print("season: " + season)
         exceptions_day_info = self._extract_from_day_exception(season, d)
         
         # If d is an exception day, use that. Otherwise use the standard seasonal day
