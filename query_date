@@ -1,0 +1,49 @@
+#!/bin/python3
+
+from datetime import datetime
+from datetime import timedelta
+from dateutil import parser
+import bcp
+import pprint
+import sys
+
+if len(sys.argv) == 1:
+    print("Usage: ./query_date DATE")
+    print("Can interpret most sensible date formats. today and tomorrow also work")
+    sys.exit()
+
+pp = pprint.PrettyPrinter()
+c = bcp.calendar()
+
+date_raw = sys.argv[1]
+
+if "today" in date_raw:
+    date = datetime.today()
+elif "tomorrow" in date_raw:
+    date = datetime.today() + timedelta(days=1)
+else:
+    try:
+        date = parser.parse(date_raw)
+    except Exception:
+        print("Invalid date format!")
+        sys.exit()
+
+info = c.get_date_information(date)
+
+print("Information about " + str(date) + " from BCP 1662")
+print("Day of week:             " + info["week_day"])
+print("Liturgical season:       " + info["season"])
+print("Colour:                  " + info["colour"])
+print("Week of season:          " + str(info["week_number"]))
+print("Ordinary time:           " + str(info["ordinary_time"]))
+print("Holy day:            `   " + str(info["holy_day"]))
+print("Name of service:         " + str(info["service_name"]))
+print("Collects:                ")
+for collect in info["collects"]:
+    pp.pprint(collect)
+print("Epistle text:")
+print(info["epistle_verse"])
+pp.pprint(info["epistle_text"])
+print("Gospel text:")
+print(info["gospel_verse"])
+pp.pprint(info["gospel_text"])
